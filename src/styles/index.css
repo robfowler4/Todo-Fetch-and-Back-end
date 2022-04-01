@@ -5,7 +5,15 @@
     border-color: black;
     border: 1px solid;
 }
-li:hover span{
-    display: flex;
+.fa-trash-alt:hover{
     color:red;
+}
+.fa-check-square:hover{
+    color:lawngreen;
+}
+.done{
+    color:lawngreen;
+}
+.fa-check-square:active{
+    color:lawngreen;
 }

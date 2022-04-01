@@ -18,6 +18,9 @@ export const Main = () => {
 	const itemRemove = (index) => {
 		setList(list.filter((singleTask, i) => i != index));
 	};
+
+	const changeColor = () => {};
+
 	return (
 		<div>
 			<input
@@ -26,13 +29,18 @@ export const Main = () => {
 				onChange={onChange}
 				onKeyDown={addTask}
 				value={inputValue}></input>
-			<ul>
+			<ul className="list-group">
 				{list.map((task, index) => {
 					return (
-						<li key={index} onClick={() => itemRemove(index)}>
+						<li className="list-group-item d-flex" key={index}>
 							{task}
 							<span className="d-flex justify-content-md-end">
-								<i className="far fa-trash-alt"></i>
+								<i
+									className="far fa-trash-alt"
+									onClick={() => itemRemove(index)}></i>
+							</span>
+							<span>
+								<i class="fas fa-check-square"></i>
 							</span>
 						</li>
 					);
