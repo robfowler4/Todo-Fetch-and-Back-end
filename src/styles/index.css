@@ -14,6 +14,13 @@
 .done{
     color:lawngreen;
 }
-.done{
-    color:lawngreen;
+.list-group-item{
+    width:100%;
+}
+.done2{
+    text-decoration: 2px line-through;
+}
+.between{
+    justify-content: space-between;
+    width: 100%;
 }

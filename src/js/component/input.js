@@ -10,7 +10,7 @@ export const Main = () => {
 		)
 			.then((response) => response.json())
 			.then((data) => setList(data))
-			.catch((err) => console.log("error"));
+			.catch((err) => console.log(err));
 	};
 
 	useEffect(() => {
@@ -39,17 +39,20 @@ export const Main = () => {
 			)
 				.then((res) => res.json())
 				.then((result) => setList(result))
-				.catch((err) => console.log("error"));
+				.catch((err) => console.log(err));
 			setInputValue("");
 		}
 	};
 
-	const updateFetch = (data) => {
+	const putFetch = (task) => {
+		task.done = !task.done;
+
 		fetch(
-			"https://3000-4geeksacademy-flaskresth-u8u1uobunju.ws-us38.gitpod.io/todo",
+			"https://3000-4geeksacademy-flaskresth-u8u1uobunju.ws-us38.gitpod.io/todo/" +
+				task.id,
 			{
-				method: "PUT", // or 'POST'
-				body: JSON.stringify(data), // data can be a `string` or  an {object} which comes from somewhere further above in our application
+				method: "PUT",
+				body: JSON.stringify(task), // data can be a `string` or  an {object} which comes from somewhere further above in our application
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -58,7 +61,7 @@ export const Main = () => {
 			.then((res) => res.json())
 			.then((response) => {
 				console.log("Success:", response);
-				getFetch();
+				setList(response);
 			})
 			.catch((error) => console.error("Error:", error));
 	};
@@ -72,22 +75,22 @@ export const Main = () => {
 			}
 		)
 			.then((res) => res.json())
-			.then(() => getFetch())
-			.catch((err) => console.log("error"));
+			.then((result) => setList(result))
+			.catch((err) => console.log(err));
 	};
 
-	const markDone = (index) => {
-		const newTodos = list.map((task, i) => {
-			if (i == index) {
-				task.done = !task.done;
-				return task;
-			} else {
-				return task;
-			}
-		});
-		setList(newTodos);
-		updateFetch(newTodos);
-	};
+	// const markDone = (index) => {
+	// 	const newTodos = list.map((task, i) => {
+	// 		if (i == index) {
+	// 			task.done = !task.done;
+	// 			return task;
+	// 		} else {
+	// 			return task;
+	// 		}
+	// 	});
+	// 	setList(newTodos);
+	// 	putFetch(newTodos);
+	// };
 
 	// let addTask = (e) => {
 	// 	if (e.keyCode == 13) {
@@ -113,19 +116,29 @@ export const Main = () => {
 				{list.map((task, index) => {
 					return (
 						<li className="list-group-item d-flex" key={index}>
-							{task.label}
-							<span className="d-flex justify-content-md-end">
-								<i
-									className="far fa-trash-alt"
-									onClick={() => deleteTask(task.id)}></i>
-							</span>
-							<span className={task.done ? "done" : ""}>
-								<i
-									className="fas fa-check-square"
-									onClick={() => {
-										markDone(index);
-									}}></i>
-							</span>
+							<div className="between d-flex">
+								<div>
+									<span className={task.done ? "done2" : ""}>
+										{task.label}
+									</span>
+								</div>
+								<div className="d-flex">
+									<span>
+										<i
+											className="far fa-trash-alt"
+											onClick={() =>
+												deleteTask(task.id)
+											}></i>
+									</span>
+									<span className={task.done ? "done" : ""}>
+										<i
+											className="fas fa-check-square"
+											onClick={() => {
+												putFetch(task);
+											}}></i>
+									</span>
+								</div>
+							</div>
 						</li>
 					);
 				})}
